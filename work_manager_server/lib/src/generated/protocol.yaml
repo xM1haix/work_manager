@@ -1,2 +1,12 @@
-example:
-  - hello:
+teamsEndpoints:
+  - create:
+  - delete:
+  - hide:
+  - read:
+  - readList:
+  - simpleRead:
+  - userList:
+userData:
+  - getUsername:
+userEndpoints:
+  - searchByName:

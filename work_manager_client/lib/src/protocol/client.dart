@@ -11,20 +11,107 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'protocol.dart' as _i3;
+import 'package:work_manager_client/src/protocol/team.ymal.dart' as _i3;
+import 'package:work_manager_client/src/protocol/simple_team.ymal.dart' as _i4;
+import 'package:work_manager_client/src/protocol/user.ymal.dart' as _i5;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i6;
+import 'protocol.dart' as _i7;
 
 /// {@category Endpoint}
-class EndpointExample extends _i1.EndpointRef {
-  EndpointExample(_i1.EndpointCaller caller) : super(caller);
+class EndpointTeamsEndpoints extends _i1.EndpointRef {
+  EndpointTeamsEndpoints(_i1.EndpointCaller caller) : super(caller);
 
   @override
-  String get name => 'example';
+  String get name => 'teamsEndpoints';
 
-  _i2.Future<String> hello(String name) => caller.callServerEndpoint<String>(
-        'example',
-        'hello',
-        {'name': name},
+  _i2.Future<bool> create(
+    String name,
+    bool isPrivate,
+  ) =>
+      caller.callServerEndpoint<bool>(
+        'teamsEndpoints',
+        'create',
+        {
+          'name': name,
+          'isPrivate': isPrivate,
+        },
       );
+
+  _i2.Future<bool> delete(int id) => caller.callServerEndpoint<bool>(
+        'teamsEndpoints',
+        'delete',
+        {'id': id},
+      );
+
+  _i2.Future<bool> hide(int id) => caller.callServerEndpoint<bool>(
+        'teamsEndpoints',
+        'hide',
+        {'id': id},
+      );
+
+  _i2.Future<_i3.Team> read(int id) => caller.callServerEndpoint<_i3.Team>(
+        'teamsEndpoints',
+        'read',
+        {'id': id},
+      );
+
+  _i2.Future<List<_i3.Team>> readList() =>
+      caller.callServerEndpoint<List<_i3.Team>>(
+        'teamsEndpoints',
+        'readList',
+        {},
+      );
+
+  _i2.Future<List<_i4.SimpleTeam>> simpleRead() =>
+      caller.callServerEndpoint<List<_i4.SimpleTeam>>(
+        'teamsEndpoints',
+        'simpleRead',
+        {},
+      );
+
+  _i2.Future<List<_i5.User>> userList(int id) =>
+      caller.callServerEndpoint<List<_i5.User>>(
+        'teamsEndpoints',
+        'userList',
+        {'id': id},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointUserData extends _i1.EndpointRef {
+  EndpointUserData(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'userData';
+
+  _i2.Future<String> getUsername() => caller.callServerEndpoint<String>(
+        'userData',
+        'getUsername',
+        {},
+      );
+}
+
+/// {@category Endpoint}
+class EndpointUserEndpoints extends _i1.EndpointRef {
+  EndpointUserEndpoints(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'userEndpoints';
+
+  _i2.Future<List<_i5.User>> searchByName(String key) =>
+      caller.callServerEndpoint<List<_i5.User>>(
+        'userEndpoints',
+        'searchByName',
+        {'key': key},
+      );
+}
+
+class Modules {
+  Modules(Client client) {
+    auth = _i6.Caller(client);
+  }
+
+  late final _i6.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -43,7 +130,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i3.Protocol(),
+          _i7.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -53,14 +140,28 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
-    example = EndpointExample(this);
+    teamsEndpoints = EndpointTeamsEndpoints(this);
+    userData = EndpointUserData(this);
+    userEndpoints = EndpointUserEndpoints(this);
+    modules = Modules(this);
   }
 
-  late final EndpointExample example;
+  late final EndpointTeamsEndpoints teamsEndpoints;
+
+  late final EndpointUserData userData;
+
+  late final EndpointUserEndpoints userEndpoints;
+
+  late final Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'example': example};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'teamsEndpoints': teamsEndpoints,
+        'userData': userData,
+        'userEndpoints': userEndpoints,
+      };
 
   @override
-  Map<String, _i1.ModuleEndpointCaller> get moduleLookup => {};
+  Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>
+      {'auth': modules.auth};
 }

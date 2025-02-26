@@ -1,0 +1,7 @@
+class: Stage
+table: stages
+fields:
+  name: String
+  status: bool?
+  deletedAt: DateTime?
+  jobId: int, relation(parent=jobs)

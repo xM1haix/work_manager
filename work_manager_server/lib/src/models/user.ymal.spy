@@ -1,0 +1,7 @@
+class: User
+table: users
+fields:
+  userId: int, relation(parent=serverpod_user_info)
+  name: String
+  deletedAt: DateTime?
+

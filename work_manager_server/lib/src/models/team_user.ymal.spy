@@ -1,0 +1,11 @@
+class: TeamUser
+table: team_users
+fields:
+    teamId: int, relation(parent=teams)
+    userId: int, relation(parent=users)
+    deletedAt: DateTime?
+    permission: UserPermission, default = viewer
+indexes:
+    team_user_unique_idx:
+        fields: teamId, userId
+        unique: true
