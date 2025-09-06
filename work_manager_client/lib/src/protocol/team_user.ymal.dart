@@ -55,6 +55,9 @@ abstract class TeamUser implements _i1.SerializableModel {
 
   _i2.UserPermission permission;
 
+  /// Returns a shallow copy of this [TeamUser]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   TeamUser copyWith({
     int? id,
     int? teamId,
@@ -96,6 +99,9 @@ class _TeamUserImpl extends TeamUser {
           permission: permission,
         );
 
+  /// Returns a shallow copy of this [TeamUser]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   TeamUser copyWith({
     Object? id = _Undefined,

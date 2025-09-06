@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class Settings extends StatefulWidget {
   const Settings({super.key});
@@ -12,9 +12,9 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: const Text("Settings"),
       ),
-      body: Text("NEED TO IMPLEMENT"),
+      body: const Text("NEED TO IMPLEMENT"),
     );
   }
 }

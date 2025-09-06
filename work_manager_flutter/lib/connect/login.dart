@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
+import "dart:async";
 
-import '/main.dart';
-import '../tasks_list.dart';
-import '../nav.dart';
-import '../popup.dart';
+import "package:flutter/material.dart";
+import "package:work_manager_flutter/main.dart";
+import "package:work_manager_flutter/nav.dart";
+import "package:work_manager_flutter/popup.dart";
+import "package:work_manager_flutter/tasks_list.dart";
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,26 +14,26 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final _email = TextEditingController(), _pass = TextEditingController();
-  bool _obscureText = true;
+  final _email = TextEditingController();
+  final _pass = TextEditingController();
+  var _obscureText = true;
   @override
   Widget build(BuildContext context) {
     return AutofillGroup(
-      onDisposeAction: AutofillContextAction.commit,
       child: Form(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
               controller: _email,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: const InputDecoration(labelText: "Email"),
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _pass,
               obscureText: _obscureText,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: "Password",
                 suffixIcon: IconButton(
                   onPressed: () => setState(() => _obscureText = !_obscureText),
                   icon: Icon(
@@ -45,7 +46,7 @@ class _LoginState extends State<Login> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _login,
-              child: const Text('Login'),
+              child: const Text("Login"),
             ),
           ],
         ),
@@ -57,16 +58,23 @@ class _LoginState extends State<Login> {
     try {
       final x =
           await client.modules.auth.email.authenticate(_email.text, _pass.text);
-      if (!x.success) throw x.failReason ?? 'Unkwon error';
+      if (!x.success) {
+        throw Exception(x.failReason ?? "Unkwon error");
+      }
       await sessionManager.registerSignedInUser(
         x.userInfo!,
         x.keyId!,
         x.key!,
       );
-      if (!mounted) return;
-      nav(context, const TasksList(), true);
+      if (!mounted) {
+        return;
+      }
+      await nav(context, const TasksList(), true);
     } catch (e) {
-      errorPopup(context, e);
+      if (!mounted) {
+        return;
+      }
+      unawaited(errorPopup(context, e));
     }
   }
 }

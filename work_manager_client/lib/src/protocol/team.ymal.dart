@@ -53,6 +53,9 @@ abstract class Team implements _i1.SerializableModel {
 
   int ownerId;
 
+  /// Returns a shallow copy of this [Team]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Team copyWith({
     int? id,
     String? name,
@@ -94,6 +97,9 @@ class _TeamImpl extends Team {
           ownerId: ownerId,
         );
 
+  /// Returns a shallow copy of this [Team]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Team copyWith({
     Object? id = _Undefined,

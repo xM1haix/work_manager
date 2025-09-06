@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
-import 'nav.dart';
+import "package:flutter/material.dart";
+import "package:work_manager_flutter/nav.dart";
 
 Future<bool> confirmPopup(BuildContext context, String question) async {
   final x = await showDialog<bool?>(
@@ -12,37 +11,39 @@ Future<bool> confirmPopup(BuildContext context, String question) async {
         textAlign: TextAlign.center,
       ),
       actions: [
-        PopupAction('Yes!', true),
-        PopupAction('No!', false),
+        PopupAction("Yes!", true),
+        PopupAction("No!", false),
       ].map((e) => e.toWidget(context)).toList(),
     ),
   );
   return x ?? false;
 }
 
-Future<void> errorPopup(BuildContext context, dynamic e) async =>
-    await showDialog<void>(
+Future<void> errorPopup(BuildContext context, e) async => showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Something went wrong"),
-        content: Text('error: $e'),
+        content: Text("error: $e"),
         actionsAlignment: MainAxisAlignment.center,
-        actions: [PopupAction('Ok!').toWidget(context)],
+        actions: [PopupAction("Ok!").toWidget(context)],
       ),
     );
 Future<void> infoPopup(BuildContext context, String title) async =>
-    await showDialog<void>(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),
         actionsAlignment: MainAxisAlignment.center,
-        actions: [PopupAction('Ok!').toWidget(context)],
+        actions: [PopupAction("Ok!").toWidget(context)],
       ),
     );
 Future<T?> popup<T>(
-        BuildContext context, String title, List<PopupAction<T>> actions,
-        {Widget? content}) async =>
-    await showDialog<T>(
+  BuildContext context,
+  String title,
+  List<PopupAction<T>> actions, {
+  Widget? content,
+}) async =>
+    showDialog<T>(
       context: context,
       builder: (context) => AlertDialog(
         title: Text(title),
@@ -53,9 +54,9 @@ Future<T?> popup<T>(
     );
 
 class PopupAction<T> {
+  PopupAction(this.text, [this.value]);
   final String text;
   final T? value;
-  PopupAction(this.text, [this.value]);
   Widget toWidget(BuildContext context) => TextButton(
         onPressed: () => back(context, value),
         child: Text(text),

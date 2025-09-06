@@ -12,7 +12,8 @@
 import 'package:serverpod/serverpod.dart' as _i1;
 import 'user_permission.ymal.dart' as _i2;
 
-abstract class TeamUser implements _i1.TableRow, _i1.ProtocolSerialization {
+abstract class TeamUser
+    implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   TeamUser._({
     this.id,
     required this.teamId,
@@ -58,8 +59,11 @@ abstract class TeamUser implements _i1.TableRow, _i1.ProtocolSerialization {
   _i2.UserPermission permission;
 
   @override
-  _i1.Table get table => t;
+  _i1.Table<int?> get table => t;
 
+  /// Returns a shallow copy of this [TeamUser]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   TeamUser copyWith({
     int? id,
     int? teamId,
@@ -136,6 +140,9 @@ class _TeamUserImpl extends TeamUser {
           permission: permission,
         );
 
+  /// Returns a shallow copy of this [TeamUser]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   TeamUser copyWith({
     Object? id = _Undefined,
@@ -154,7 +161,7 @@ class _TeamUserImpl extends TeamUser {
   }
 }
 
-class TeamUserTable extends _i1.Table {
+class TeamUserTable extends _i1.Table<int?> {
   TeamUserTable({super.tableRelation}) : super(tableName: 'team_users') {
     teamId = _i1.ColumnInt(
       'teamId',
@@ -201,7 +208,7 @@ class TeamUserInclude extends _i1.IncludeObject {
   Map<String, _i1.Include?> get includes => {};
 
   @override
-  _i1.Table get table => TeamUser.t;
+  _i1.Table<int?> get table => TeamUser.t;
 }
 
 class TeamUserIncludeList extends _i1.IncludeList {
@@ -221,12 +228,34 @@ class TeamUserIncludeList extends _i1.IncludeList {
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => TeamUser.t;
+  _i1.Table<int?> get table => TeamUser.t;
 }
 
 class TeamUserRepository {
   const TeamUserRepository._();
 
+  /// Returns a list of [TeamUser]s matching the given query parameters.
+  ///
+  /// Use [where] to specify which items to include in the return value.
+  /// If none is specified, all items will be returned.
+  ///
+  /// To specify the order of the items use [orderBy] or [orderByList]
+  /// when sorting by multiple columns.
+  ///
+  /// The maximum number of items can be set by [limit]. If no limit is set,
+  /// all items matching the query will be returned.
+  ///
+  /// [offset] defines how many items to skip, after which [limit] (or all)
+  /// items are read from the database.
+  ///
+  /// ```dart
+  /// var persons = await Persons.db.find(
+  ///   session,
+  ///   where: (t) => t.lastName.equals('Jones'),
+  ///   orderBy: (t) => t.firstName,
+  ///   limit: 100,
+  /// );
+  /// ```
   Future<List<TeamUser>> find(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<TeamUserTable>? where,
@@ -248,6 +277,23 @@ class TeamUserRepository {
     );
   }
 
+  /// Returns the first matching [TeamUser] matching the given query parameters.
+  ///
+  /// Use [where] to specify which items to include in the return value.
+  /// If none is specified, all items will be returned.
+  ///
+  /// To specify the order use [orderBy] or [orderByList]
+  /// when sorting by multiple columns.
+  ///
+  /// [offset] defines how many items to skip, after which the next one will be picked.
+  ///
+  /// ```dart
+  /// var youngestPerson = await Persons.db.findFirstRow(
+  ///   session,
+  ///   where: (t) => t.lastName.equals('Jones'),
+  ///   orderBy: (t) => t.age,
+  /// );
+  /// ```
   Future<TeamUser?> findFirstRow(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<TeamUserTable>? where,
@@ -267,6 +313,7 @@ class TeamUserRepository {
     );
   }
 
+  /// Finds a single [TeamUser] by its [id] or null if no such row exists.
   Future<TeamUser?> findById(
     _i1.Session session,
     int id, {
@@ -278,6 +325,12 @@ class TeamUserRepository {
     );
   }
 
+  /// Inserts all [TeamUser]s in the list and returns the inserted rows.
+  ///
+  /// The returned [TeamUser]s will have their `id` fields set.
+  ///
+  /// This is an atomic operation, meaning that if one of the rows fails to
+  /// insert, none of the rows will be inserted.
   Future<List<TeamUser>> insert(
     _i1.Session session,
     List<TeamUser> rows, {
@@ -289,6 +342,9 @@ class TeamUserRepository {
     );
   }
 
+  /// Inserts a single [TeamUser] and returns the inserted row.
+  ///
+  /// The returned [TeamUser] will have its `id` field set.
   Future<TeamUser> insertRow(
     _i1.Session session,
     TeamUser row, {
@@ -300,6 +356,11 @@ class TeamUserRepository {
     );
   }
 
+  /// Updates all [TeamUser]s in the list and returns the updated rows. If
+  /// [columns] is provided, only those columns will be updated. Defaults to
+  /// all columns.
+  /// This is an atomic operation, meaning that if one of the rows fails to
+  /// update, none of the rows will be updated.
   Future<List<TeamUser>> update(
     _i1.Session session,
     List<TeamUser> rows, {
@@ -313,6 +374,9 @@ class TeamUserRepository {
     );
   }
 
+  /// Updates a single [TeamUser]. The row needs to have its id set.
+  /// Optionally, a list of [columns] can be provided to only update those
+  /// columns. Defaults to all columns.
   Future<TeamUser> updateRow(
     _i1.Session session,
     TeamUser row, {
@@ -326,6 +390,9 @@ class TeamUserRepository {
     );
   }
 
+  /// Deletes all [TeamUser]s in the list and returns the deleted rows.
+  /// This is an atomic operation, meaning that if one of the rows fail to
+  /// be deleted, none of the rows will be deleted.
   Future<List<TeamUser>> delete(
     _i1.Session session,
     List<TeamUser> rows, {
@@ -337,6 +404,7 @@ class TeamUserRepository {
     );
   }
 
+  /// Deletes a single [TeamUser].
   Future<TeamUser> deleteRow(
     _i1.Session session,
     TeamUser row, {
@@ -348,6 +416,7 @@ class TeamUserRepository {
     );
   }
 
+  /// Deletes all rows matching the [where] expression.
   Future<List<TeamUser>> deleteWhere(
     _i1.Session session, {
     required _i1.WhereExpressionBuilder<TeamUserTable> where,
@@ -359,6 +428,8 @@ class TeamUserRepository {
     );
   }
 
+  /// Counts the number of rows matching the [where] expression. If omitted,
+  /// will return the count of all rows in the table.
   Future<int> count(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<TeamUserTable>? where,

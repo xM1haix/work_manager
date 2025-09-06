@@ -63,7 +63,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (endpoints['teamsEndpoints'] as _i2.TeamsEndpoints).create(
             session,
             params['name'],
-            params['isPrivate'],
+            isPrivate: params['isPrivate'],
           ),
         ),
         'delete': _i1.MethodConnector(

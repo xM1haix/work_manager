@@ -44,6 +44,9 @@ abstract class SimpleTeam
 
   int ownerId;
 
+  /// Returns a shallow copy of this [SimpleTeam]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   SimpleTeam copyWith({
     int? id,
     String? name,
@@ -89,6 +92,9 @@ class _SimpleTeamImpl extends SimpleTeam {
           ownerId: ownerId,
         );
 
+  /// Returns a shallow copy of this [SimpleTeam]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   SimpleTeam copyWith({
     int? id,

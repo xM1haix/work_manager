@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:work_manager_flutter/fab_add.dart';
+import "package:flutter/material.dart";
+import "package:work_manager_flutter/fab_add.dart";
 
 class StepsList extends StatefulWidget {
-  final int id;
   const StepsList(
     this.id, {
     super.key,
   });
+  final int id;
 
   @override
   State<StepsList> createState() => _StepsListState();
@@ -30,15 +30,15 @@ class _StepsListState extends State<StepsList> {
           child: Tooltip(
             message: "Work $i",
             child: InkWell(
-              hoverColor: Color(0xFFC0C0C0),
+              hoverColor: const Color(0xFFC0C0C0),
               splashColor: Colors.green,
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 margin: const EdgeInsets.all(5),
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xAA121212),
+                  color: const Color(0xAA121212),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,19 +48,19 @@ class _StepsListState extends State<StepsList> {
                       children: [
                         Text(
                           "Step $i",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
                         Text(
                           "$i% DONE",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     LinearProgressIndicator(
                       borderRadius: BorderRadius.circular(10),
                       value: i * 1 / 10,

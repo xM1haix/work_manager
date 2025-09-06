@@ -19,11 +19,11 @@ enum UserPermission implements _i1.SerializableModel {
   static UserPermission fromJson(int index) {
     switch (index) {
       case 0:
-        return viewer;
+        return UserPermission.viewer;
       case 1:
-        return member;
+        return UserPermission.member;
       case 2:
-        return admin;
+        return UserPermission.admin;
       default:
         throw ArgumentError(
             'Value "$index" cannot be converted to "UserPermission"');

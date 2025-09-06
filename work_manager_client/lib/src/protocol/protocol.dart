@@ -94,16 +94,14 @@ class Protocol extends _i1.SerializationManager {
       return (data != null ? _i9.UserPermission.fromJson(data) : null) as T;
     }
     if (t == List<_i10.Team>) {
-      return (data as List).map((e) => deserialize<_i10.Team>(e)).toList()
-          as dynamic;
+      return (data as List).map((e) => deserialize<_i10.Team>(e)).toList() as T;
     }
     if (t == List<_i11.SimpleTeam>) {
       return (data as List).map((e) => deserialize<_i11.SimpleTeam>(e)).toList()
-          as dynamic;
+          as T;
     }
     if (t == List<_i12.User>) {
-      return (data as List).map((e) => deserialize<_i12.User>(e)).toList()
-          as dynamic;
+      return (data as List).map((e) => deserialize<_i12.User>(e)).toList() as T;
     }
     try {
       return _i13.Protocol().deserialize<T>(data, t);

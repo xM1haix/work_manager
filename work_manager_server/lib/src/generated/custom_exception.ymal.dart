@@ -26,6 +26,9 @@ abstract class CustomException
 
   String message;
 
+  /// Returns a shallow copy of this [CustomException]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   CustomException copyWith({String? message});
   @override
   Map<String, dynamic> toJson() {
@@ -46,6 +49,9 @@ abstract class CustomException
 class _CustomExceptionImpl extends CustomException {
   _CustomExceptionImpl({required String message}) : super._(message: message);
 
+  /// Returns a shallow copy of this [CustomException]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   CustomException copyWith({String? message}) {
     return CustomException(message: message ?? this.message);

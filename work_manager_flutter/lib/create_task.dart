@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class CreateTask extends StatefulWidget {
-  final int? teamId;
   const CreateTask(this.teamId, {super.key});
+  final int? teamId;
 
   @override
   State<CreateTask> createState() => _CreateTaskState();
@@ -13,9 +13,9 @@ class _CreateTaskState extends State<CreateTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create task"),
+        title: const Text("Create task"),
       ),
-      body: Text("NOT IMPLEMENTED"),
+      body: const Text("NOT IMPLEMENTED"),
     );
   }
 }

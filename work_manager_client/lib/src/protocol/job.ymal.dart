@@ -53,6 +53,9 @@ abstract class Job implements _i1.SerializableModel {
 
   DateTime? deletedAt;
 
+  /// Returns a shallow copy of this [Job]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Job copyWith({
     int? id,
     String? name,
@@ -94,6 +97,9 @@ class _JobImpl extends Job {
           deletedAt: deletedAt,
         );
 
+  /// Returns a shallow copy of this [Job]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Job copyWith({
     Object? id = _Undefined,

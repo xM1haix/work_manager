@@ -11,7 +11,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _i1;
 
-abstract class Team implements _i1.TableRow, _i1.ProtocolSerialization {
+abstract class Team implements _i1.TableRow<int?>, _i1.ProtocolSerialization {
   Team._({
     this.id,
     required this.name,
@@ -56,8 +56,11 @@ abstract class Team implements _i1.TableRow, _i1.ProtocolSerialization {
   int ownerId;
 
   @override
-  _i1.Table get table => t;
+  _i1.Table<int?> get table => t;
 
+  /// Returns a shallow copy of this [Team]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Team copyWith({
     int? id,
     String? name,
@@ -134,6 +137,9 @@ class _TeamImpl extends Team {
           ownerId: ownerId,
         );
 
+  /// Returns a shallow copy of this [Team]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Team copyWith({
     Object? id = _Undefined,
@@ -152,7 +158,7 @@ class _TeamImpl extends Team {
   }
 }
 
-class TeamTable extends _i1.Table {
+class TeamTable extends _i1.Table<int?> {
   TeamTable({super.tableRelation}) : super(tableName: 'teams') {
     name = _i1.ColumnString(
       'name',
@@ -198,7 +204,7 @@ class TeamInclude extends _i1.IncludeObject {
   Map<String, _i1.Include?> get includes => {};
 
   @override
-  _i1.Table get table => Team.t;
+  _i1.Table<int?> get table => Team.t;
 }
 
 class TeamIncludeList extends _i1.IncludeList {
@@ -218,12 +224,34 @@ class TeamIncludeList extends _i1.IncludeList {
   Map<String, _i1.Include?> get includes => include?.includes ?? {};
 
   @override
-  _i1.Table get table => Team.t;
+  _i1.Table<int?> get table => Team.t;
 }
 
 class TeamRepository {
   const TeamRepository._();
 
+  /// Returns a list of [Team]s matching the given query parameters.
+  ///
+  /// Use [where] to specify which items to include in the return value.
+  /// If none is specified, all items will be returned.
+  ///
+  /// To specify the order of the items use [orderBy] or [orderByList]
+  /// when sorting by multiple columns.
+  ///
+  /// The maximum number of items can be set by [limit]. If no limit is set,
+  /// all items matching the query will be returned.
+  ///
+  /// [offset] defines how many items to skip, after which [limit] (or all)
+  /// items are read from the database.
+  ///
+  /// ```dart
+  /// var persons = await Persons.db.find(
+  ///   session,
+  ///   where: (t) => t.lastName.equals('Jones'),
+  ///   orderBy: (t) => t.firstName,
+  ///   limit: 100,
+  /// );
+  /// ```
   Future<List<Team>> find(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<TeamTable>? where,
@@ -245,6 +273,23 @@ class TeamRepository {
     );
   }
 
+  /// Returns the first matching [Team] matching the given query parameters.
+  ///
+  /// Use [where] to specify which items to include in the return value.
+  /// If none is specified, all items will be returned.
+  ///
+  /// To specify the order use [orderBy] or [orderByList]
+  /// when sorting by multiple columns.
+  ///
+  /// [offset] defines how many items to skip, after which the next one will be picked.
+  ///
+  /// ```dart
+  /// var youngestPerson = await Persons.db.findFirstRow(
+  ///   session,
+  ///   where: (t) => t.lastName.equals('Jones'),
+  ///   orderBy: (t) => t.age,
+  /// );
+  /// ```
   Future<Team?> findFirstRow(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<TeamTable>? where,
@@ -264,6 +309,7 @@ class TeamRepository {
     );
   }
 
+  /// Finds a single [Team] by its [id] or null if no such row exists.
   Future<Team?> findById(
     _i1.Session session,
     int id, {
@@ -275,6 +321,12 @@ class TeamRepository {
     );
   }
 
+  /// Inserts all [Team]s in the list and returns the inserted rows.
+  ///
+  /// The returned [Team]s will have their `id` fields set.
+  ///
+  /// This is an atomic operation, meaning that if one of the rows fails to
+  /// insert, none of the rows will be inserted.
   Future<List<Team>> insert(
     _i1.Session session,
     List<Team> rows, {
@@ -286,6 +338,9 @@ class TeamRepository {
     );
   }
 
+  /// Inserts a single [Team] and returns the inserted row.
+  ///
+  /// The returned [Team] will have its `id` field set.
   Future<Team> insertRow(
     _i1.Session session,
     Team row, {
@@ -297,6 +352,11 @@ class TeamRepository {
     );
   }
 
+  /// Updates all [Team]s in the list and returns the updated rows. If
+  /// [columns] is provided, only those columns will be updated. Defaults to
+  /// all columns.
+  /// This is an atomic operation, meaning that if one of the rows fails to
+  /// update, none of the rows will be updated.
   Future<List<Team>> update(
     _i1.Session session,
     List<Team> rows, {
@@ -310,6 +370,9 @@ class TeamRepository {
     );
   }
 
+  /// Updates a single [Team]. The row needs to have its id set.
+  /// Optionally, a list of [columns] can be provided to only update those
+  /// columns. Defaults to all columns.
   Future<Team> updateRow(
     _i1.Session session,
     Team row, {
@@ -323,6 +386,9 @@ class TeamRepository {
     );
   }
 
+  /// Deletes all [Team]s in the list and returns the deleted rows.
+  /// This is an atomic operation, meaning that if one of the rows fail to
+  /// be deleted, none of the rows will be deleted.
   Future<List<Team>> delete(
     _i1.Session session,
     List<Team> rows, {
@@ -334,6 +400,7 @@ class TeamRepository {
     );
   }
 
+  /// Deletes a single [Team].
   Future<Team> deleteRow(
     _i1.Session session,
     Team row, {
@@ -345,6 +412,7 @@ class TeamRepository {
     );
   }
 
+  /// Deletes all rows matching the [where] expression.
   Future<List<Team>> deleteWhere(
     _i1.Session session, {
     required _i1.WhereExpressionBuilder<TeamTable> where,
@@ -356,6 +424,8 @@ class TeamRepository {
     );
   }
 
+  /// Counts the number of rows matching the [where] expression. If omitted,
+  /// will return the count of all rows in the table.
   Future<int> count(
     _i1.Session session, {
     _i1.WhereExpressionBuilder<TeamTable>? where,

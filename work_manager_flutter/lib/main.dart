@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart';
-import 'package:serverpod_flutter/serverpod_flutter.dart';
-import 'package:work_manager_client/work_manager_client.dart';
-
-import 'connect/connect.dart';
-import 'tasks_list.dart';
+import "package:flutter/material.dart";
+import "package:serverpod_auth_shared_flutter/serverpod_auth_shared_flutter.dart";
+import "package:serverpod_flutter/serverpod_flutter.dart";
+import "package:work_manager_client/work_manager_client.dart";
+import "package:work_manager_flutter/connect/connect.dart";
+import "package:work_manager_flutter/tasks_list.dart";
 
 void main() async {
   sessionManager = SessionManager(caller: client.modules.auth);
@@ -13,10 +12,8 @@ void main() async {
   runApp(const MyApp());
 }
 
-
-
 var client = Client(
-  'http://$localhost:8080/',
+  "http://$localhost:8080/",
   authenticationKeyManager: FlutterAuthenticationKeyManager(),
 )..connectivityMonitor = FlutterConnectivityMonitor();
 late SessionManager sessionManager;
@@ -32,11 +29,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Work Manager',
+      title: "Work Manager",
       theme: ThemeData.dark().copyWith(
-        appBarTheme: AppBarTheme(centerTitle: true),
+        appBarTheme: const AppBarTheme(centerTitle: true),
         scaffoldBackgroundColor: Colors.black,
-        tooltipTheme: TooltipThemeData(
+        tooltipTheme: const TooltipThemeData(
           enableFeedback: true,
           textStyle: TextStyle(
             color: Colors.white,
@@ -55,6 +52,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     sessionManager.addListener(() => setState(() {}));
-    print(sessionManager.isSignedIn);
+    debugPrint(sessionManager.isSignedIn.toString());
   }
 }

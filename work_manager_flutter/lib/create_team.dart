@@ -1,21 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:work_manager_flutter/main.dart';
-import 'package:work_manager_flutter/nav.dart';
-import 'package:work_manager_flutter/popup.dart';
+import "dart:async";
+
+import "package:flutter/material.dart";
+import "package:work_manager_flutter/main.dart";
+import "package:work_manager_flutter/nav.dart";
+import "package:work_manager_flutter/popup.dart";
 
 class CreateTeam extends StatefulWidget {
-  final int? teamId;
   const CreateTeam({
     this.teamId,
     super.key,
   });
+  final int? teamId;
 
   @override
   State<CreateTeam> createState() => _CreateTeamState();
 }
 
 class _CreateTeamState extends State<CreateTeam> {
-  bool _isPrivate = false;
+  var _isPrivate = false;
   final _controller = TextEditingController();
 
   @override
@@ -30,9 +32,10 @@ class _CreateTeamState extends State<CreateTeam> {
             controller: _controller,
           ),
           SwitchListTile(
-            title: Text('Set it to private or public team'),
+            title: const Text("Set it to private or public team"),
             subtitle: Text(
-                "This team is set to ${_isPrivate ? "private" : "public"}"),
+              "This team is set to ${_isPrivate ? "private" : "public"}",
+            ),
             onChanged: _onChanged,
             value: _isPrivate,
           ),
@@ -41,7 +44,7 @@ class _CreateTeamState extends State<CreateTeam> {
               onPressed: _createTeam,
               child: Text(widget.teamId == null ? "Create" : "Update"),
             ),
-          )
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -59,18 +62,22 @@ class _CreateTeamState extends State<CreateTeam> {
   @override
   void initState() {
     super.initState();
-    _init();
+    unawaited(_init());
   }
 
   Future<void> _createTeam() async {
     try {
-      final x =
-          await client.teamsEndpoints.create(_controller.text, _isPrivate);
-      if (x != true) throw "Unknown error!";
-      if (!mounted) return;
+      final x = await client.teamsEndpoints
+          .create(_controller.text, isPrivate: _isPrivate);
+      if (!x) {
+        throw Exception("Unknown error!");
+      }
+      if (!mounted) {
+        return;
+      }
       back(context, true);
     } catch (e) {
-      errorPopup(context, e);
+      unawaited(errorPopup(context, e));
     }
   }
 

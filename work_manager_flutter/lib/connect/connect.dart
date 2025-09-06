@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
-import 'login.dart';
-import 'register.dart';
+import "package:flutter/material.dart";
+import "package:work_manager_flutter/connect/login.dart";
+import "package:work_manager_flutter/connect/register.dart";
 
 class Connect extends StatefulWidget {
   const Connect({super.key});
@@ -11,7 +10,7 @@ class Connect extends StatefulWidget {
 }
 
 class _ConnectState extends State<Connect> {
-  bool _isLogin = true;
+  var _isLogin = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,13 +18,12 @@ class _ConnectState extends State<Connect> {
         child: Container(
           width: 500,
           constraints: const BoxConstraints(maxHeight: 500),
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: const Color(0xFF121212),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
               color: Colors.orange,
-              width: 1,
             ),
           ),
           child: SingleChildScrollView(
@@ -41,9 +39,10 @@ class _ConnectState extends State<Connect> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  _isLogin
-                      ? const Login()
-                      : Register(() => setState(() => _isLogin = true)),
+                  if (_isLogin)
+                    const Login()
+                  else
+                    Register(() => setState(() => _isLogin = true)),
                   const SizedBox(height: 20),
                   TextButton(
                     onPressed: () => setState(() => _isLogin = !_isLogin),

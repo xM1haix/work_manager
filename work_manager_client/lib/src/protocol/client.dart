@@ -25,9 +25,9 @@ class EndpointTeamsEndpoints extends _i1.EndpointRef {
   String get name => 'teamsEndpoints';
 
   _i2.Future<bool> create(
-    String name,
-    bool isPrivate,
-  ) =>
+    String name, {
+    required bool isPrivate,
+  }) =>
       caller.callServerEndpoint<bool>(
         'teamsEndpoints',
         'create',

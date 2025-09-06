@@ -53,6 +53,9 @@ abstract class Stage implements _i1.SerializableModel {
 
   int jobId;
 
+  /// Returns a shallow copy of this [Stage]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   Stage copyWith({
     int? id,
     String? name,
@@ -94,6 +97,9 @@ class _StageImpl extends Stage {
           jobId: jobId,
         );
 
+  /// Returns a shallow copy of this [Stage]
+  /// with some or all fields replaced by the given arguments.
+  @_i1.useResult
   @override
   Stage copyWith({
     Object? id = _Undefined,

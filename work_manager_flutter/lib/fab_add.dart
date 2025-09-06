@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class FabAdd extends StatelessWidget {
-  final String tooltip;
-  final void Function() onPressed;
   const FabAdd({
-    super.key,
     required this.tooltip,
     required this.onPressed,
+    super.key,
   });
+  final String tooltip;
+  final void Function() onPressed;
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
       tooltip: tooltip,
       onPressed: onPressed,
-      backgroundColor: Color(0xFF121212),
-      shape: CircleBorder(),
-      child: Icon(
+      backgroundColor: const Color(0xFF121212),
+      shape: const CircleBorder(),
+      child: const Icon(
         Icons.add,
         color: Colors.green,
       ),

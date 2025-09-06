@@ -1,16 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:work_manager_client/work_manager_client.dart';
-import 'package:work_manager_flutter/nav.dart';
-import 'package:work_manager_flutter/settings.dart';
-import 'package:work_manager_flutter/steps_list.dart';
-import 'package:work_manager_flutter/teams.dart';
+import "dart:async";
 
-import 'connect/connect.dart';
-import 'create_task.dart';
-import 'fab_add.dart';
-import 'future_builder.dart';
-import 'main.dart';
-import 'popup.dart';
+import "package:flutter/material.dart";
+import "package:work_manager_client/work_manager_client.dart";
+import "package:work_manager_flutter/connect/connect.dart";
+import "package:work_manager_flutter/create_task.dart";
+import "package:work_manager_flutter/fab_add.dart";
+import "package:work_manager_flutter/future_builder.dart";
+import "package:work_manager_flutter/main.dart";
+import "package:work_manager_flutter/nav.dart";
+import "package:work_manager_flutter/popup.dart";
+import "package:work_manager_flutter/settings.dart";
+import "package:work_manager_flutter/steps_list.dart";
+import "package:work_manager_flutter/teams.dart";
 
 class TasksList extends StatefulWidget {
   const TasksList({super.key});
@@ -37,7 +38,7 @@ class _TasksListState extends State<TasksList> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
+                gradient: const LinearGradient(
                   colors: [Colors.green, Colors.white],
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
@@ -47,7 +48,7 @@ class _TasksListState extends State<TasksList> {
                 future: _getUsername,
                 success: (username) => Text(
                   username,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 30,
                   ),
@@ -58,7 +59,7 @@ class _TasksListState extends State<TasksList> {
               child: CustomFutureBuilder(
                 future: _getTeams,
                 success: (teams) => teams.isEmpty
-                    ? Center(
+                    ? const Center(
                         child: Text("You have no teams"),
                       )
                     : ListView.builder(
@@ -77,12 +78,12 @@ class _TasksListState extends State<TasksList> {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
                                   margin: const EdgeInsets.all(3),
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: selected
                                         ? Colors.green.withAlpha(0xAA)
-                                        : Color(0xAA121212),
+                                        : const Color(0xAA121212),
                                   ),
                                   child: Text(
                                     teams[i].name,
@@ -105,21 +106,21 @@ class _TasksListState extends State<TasksList> {
               children: [
                 IconButton(
                   tooltip: "Settings",
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.settings,
                   ),
                   onPressed: _goToSettings,
                 ),
                 IconButton(
                   tooltip: "Manage Teams",
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.groups_outlined,
                   ),
                   onPressed: _manageTeams,
                 ),
                 IconButton(
                   tooltip: "Logout",
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.power_settings_new,
                     color: Colors.red,
                   ),
@@ -127,7 +128,7 @@ class _TasksListState extends State<TasksList> {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -144,16 +145,16 @@ class _TasksListState extends State<TasksList> {
             child: Tooltip(
               message: "Work $i",
               child: InkWell(
-                hoverColor: Color(0xFFC0C0C0),
+                hoverColor: const Color(0xFFC0C0C0),
                 splashColor: Colors.green,
                 onTap: () => _openWork(i),
                 borderRadius: BorderRadius.circular(10),
                 child: Container(
                   margin: const EdgeInsets.all(5),
-                  padding: EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color(0xAA121212),
+                    color: const Color(0xAA121212),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,25 +164,25 @@ class _TasksListState extends State<TasksList> {
                         children: [
                           Text(
                             "Work $i",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
                           Text(
                             "$i% DONE",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                             ),
                           ),
                         ],
                       ),
                       AnimatedSwitcher(
-                        duration: Duration(seconds: 1),
+                        duration: const Duration(seconds: 1),
                         child: _selected == null
-                            ? SizedBox(height: 20)
+                            ? const SizedBox(height: 20)
                             : Text(
                                 "Team $i",
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                 ),
                               ),
@@ -218,7 +219,7 @@ class _TasksListState extends State<TasksList> {
 
   void _createNewTask() => nav(context, CreateTask(_selected));
 
-  void _goToSettings() => nav(context, Settings());
+  void _goToSettings() => nav(context, const Settings());
   void _init() {
     setState(() {
       _getTeams = client.teamsEndpoints.simpleRead();
@@ -235,15 +236,19 @@ class _TasksListState extends State<TasksList> {
     }
     try {
       final x = await sessionManager.signOutDevice();
-      if (!mounted && !x) return;
-      nav(context, const Connect(), true);
+      if (!mounted && !x) {
+        return;
+      }
+      await nav(context, const Connect(), true);
     } catch (e) {
-      if (!mounted) return;
-      errorPopup(context, e);
+      if (!mounted) {
+        return;
+      }
+      unawaited(errorPopup(context, e));
     }
   }
 
-  void _manageTeams() => nav(context, Teams());
+  void _manageTeams() => nav(context, const Teams());
   Future<void> _onRefresh() async {}
   void _openWork(int i) => nav(context, StepsList(i));
 }
